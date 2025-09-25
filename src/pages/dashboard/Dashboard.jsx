@@ -136,7 +136,7 @@ export default function Dashboard() {
                             </Grid>
                             <Grid item>
                                 <Typography
-                                    variant="textSecondary"
+                                    variant="secondaryText"
                                     color={theme.palette.textSecondary?.main || theme.palette.text.primary}
                                     fontSize="28px"
                                     fontWeight={600}
@@ -152,7 +152,7 @@ export default function Dashboard() {
                     <Card
                         sx={{
                             height: '70vh',
-                            width: '50vw',
+                            width: '40vw',
                             p: 2,
                             boxShadow: 3,
                             borderRadius: 2,
@@ -166,7 +166,7 @@ export default function Dashboard() {
                                 </Grid>
                                 <Grid item>
                                     <Typography
-                                        variant="textSecondary"
+                                        variant="secondaryText"
                                         color={theme.palette.textSecondary?.main || theme.palette.text.primary}
                                         fontSize="28px"
                                         fontWeight={600}
@@ -180,9 +180,9 @@ export default function Dashboard() {
                                 <Box sx={{ position: 'relative', height: '100%' }}>
                                     {/* Versículo em itálico e centralizado */}
                                     <Typography
-                                        variant="body1"
+                                        variant="secondaryText"
                                         sx={{
-                                            fontSize: '3rem',
+                                            fontSize: '1.5rem',
                                             fontStyle: 'italic',
                                             textAlign: 'center',
                                             display: 'flex',
@@ -203,12 +203,12 @@ export default function Dashboard() {
                                         display="flex"
                                         justifyContent="center"
                                         alignItems="center"
-                                        mt={10}
+                                        mt={5}
                                     >
                                         <img
                                             src={CruzEvangelho}
                                             alt="Cruz do Evangelho"
-                                            style={{ width: '50%', height: '50%' }}
+                                            style={{ width: '30%', height: '30%' }}
                                             color={theme.palette.textSecondary.main}
                                         />
                                     </Grid>

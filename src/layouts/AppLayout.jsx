@@ -24,7 +24,16 @@ export function AppLayout({ children }) {
     const title = currentItem ? currentItem.text : "Página";
 
     return (
-        <Box sx={{ display: 'flex' }}>
+        <Box
+            sx={{
+                display: "flex",
+                flexDirection: "column",
+                width: "100vw",
+                height: "100vh",
+                overflow: "hidden",
+                boxSizing: "border-box",
+            }}
+        >
             <AppBar title={title} />
             <Sidebar />
 
@@ -36,6 +45,7 @@ export function AppLayout({ children }) {
                     minHeight: '100vh',
                     minWidth: '100%',
                     pt: 8,
+                    pl: 28,
                     transition: theme.transitions.create(['margin'], {
                         easing: theme.transitions.easing.sharp,
                         duration: theme.transitions.duration.standard,

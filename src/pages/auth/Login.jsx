@@ -21,6 +21,7 @@ import {grey} from "@mui/material/colors";
 import {useState} from "react";
 import {useAuth} from "../../contexts/AuthContext.jsx";
 import {useAlert} from "../../contexts/AlertContext.jsx";
+import theme from "../../configs/theme.jsx";
 
 function Login() {
     const { login } = useAuth();
@@ -140,6 +141,14 @@ function Login() {
                                         </InputAdornment>
                                     )
                                 }}
+                                sx={(theme) => ({
+                                    "& .MuiInputBase-input::placeholder": {
+                                        fontFamily: theme.typography.secondaryText,
+                                    },
+                                    "& .MuiInputBase-input": {
+                                        fontFamily: theme.typography.secondaryText,
+                                    },
+                                })}
                             />
 
                             <TextField
@@ -158,6 +167,14 @@ function Login() {
                                         </InputAdornment>
                                     )
                                 }}
+                                sx={(theme) => ({
+                                    "& .MuiInputBase-input::placeholder": {
+                                        fontFamily: theme.typography.secondaryText,
+                                    },
+                                    "& .MuiInputBase-input": {
+                                        fontFamily: theme.typography.secondaryText,
+                                    },
+                                })}
                             />
                         </FormControl>
 
@@ -175,7 +192,7 @@ function Login() {
                                 }}
                             >
                                 <Typography
-                                    variant='h6'
+                                    variant='secondaryText'
                                     sx={{
                                         textDecoration: 'underline',
                                     }}
@@ -197,6 +214,7 @@ function Login() {
                                 color="secondary"
                                 disabled={Object.keys(errors).length > 0 || isLoading }
                                 startIcon={isLoading && <CircularProgress size={16} sx={{ color: grey[400] }} />}
+                                sx={{ fontFamily: (theme) => theme.typography.secondaryText }}
                             >
                                 Acessar
                             </Button>

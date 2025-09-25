@@ -1,7 +1,7 @@
 import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
-import Login from "../pages/auth/Login.jsx";
+import Dashboard from "../pages/dashboard/Dashboard.jsx";
 
 const ProtectedRoutes = () => {
     const { isAuthenticated } = useAuth();
@@ -18,7 +18,7 @@ const ProtectedRoutes = () => {
     return (
         <Routes>
             {/* Rota padrão - redireciona para dashboard */}
-            {/*<Route path="/" element={<Login />}/>*/}
+            <Route path="/dashboard" element={<Dashboard />}/>
         </Routes>
     );
 };

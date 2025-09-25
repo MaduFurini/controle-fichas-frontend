@@ -15,6 +15,8 @@ const AppContext = createContext();
 export const AppProvider = ({ children }) => {
     const isLargeScreen = window.innerWidth > 1200;
 
+    const [currentTitle, setCurrentTitle] = useState("Dashboard");
+
     const [drawerOpen, setDrawerOpen] = useState(
         localStorage.getItem("@Sacramentum:drawerOpen") === "false"
         ? false
@@ -61,6 +63,10 @@ export const AppProvider = ({ children }) => {
         setUserData(newUserData);
     }
 
+    const setTitle = (title) => {
+        setCurrentTitle(title);
+    };
+
     return (
         <AppContext.Provider value={{
             drawerOpen: drawerOpen,
@@ -74,6 +80,7 @@ export const AppProvider = ({ children }) => {
             setCommunityIdSession,
             getCommunityIdSession,
             getMenuStateFromLocalStorage,
+            setTitle
         }}>
             {children}
         </AppContext.Provider>

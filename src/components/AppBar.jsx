@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import {
     AppBar as MuiAppBar,
     Toolbar,
@@ -36,18 +36,18 @@ const StyledAppBar = styled(MuiAppBar, {
     }),
     ...(open && {
         marginLeft: drawerWidth,
-        width: `calc(100% - 360px)`,
+        width: `calc(100% - 240px)`,
         transition: theme.transitions.create(['width', 'margin'], {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.enteringScreen,
         }),
     }),
     ...(!open && {
-        width: `calc(100% - 80px)`,
+        width: `calc(100% - 55px)`,
     }),
     [theme.breakpoints.down('md')]: {
         marginLeft: 0,
-        width: '100%',
+        width: `calc(100% - 55px)`,
     },
 }));
 
@@ -105,7 +105,7 @@ export function AppBar() {
                         </IconButton>
 
                         <Typography
-                            variant="h6"
+                            variant="h3"
                             noWrap
                             component="div"
                             sx={{
@@ -122,7 +122,7 @@ export function AppBar() {
                     {/* Lado direito - Perfil do usuário */}
                     <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                         <Typography
-                            variant="body1"
+                            variant="h3"
                             sx={{
                                 display: { xs: 'none', md: 'block' },
                                 color: '#333',
@@ -150,7 +150,7 @@ export function AppBar() {
                             {userData?.avatar ? (
                                 <Avatar
                                     src={userData.avatar}
-                                    sx={{ width: 32, height: 32 }}
+                                    sx={{ width: 42, height: 42 }}
                                 />
                             ) : (
                                 <AccountCircle sx={{ fontSize: 32 }} />
@@ -199,23 +199,23 @@ export function AppBar() {
             >
                 {/* Header do menu com informações do usuário */}
                 <Box sx={{ px: 2, py: 1.5, borderBottom: '1px solid #e0e0e0' }}>
-                    <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>
+                    <Typography variant="secondaryText" component="div" sx={{ fontWeight: 600 }}>
                         {userData?.name || 'Usuário'}
                     </Typography>
-                    <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                    <Typography variant="secondaryText" component="div" sx={{ color: 'text.secondary' }}>
                         {userData?.email || 'usuario@email.com'}
                     </Typography>
                 </Box>
 
                 {/* Opções do menu */}
-                <MenuItem onClick={handleProfile} sx={{ py: 1.5 }}>
+                <MenuItem onClick={handleProfile} sx={{ py: 1.5, fontFamily: 'secondaryText.fontFamily' }}>
                     <ListItemIcon>
                         <Person fontSize="small" sx={{ fontSize: 24 ,color: '#A87B4F' }} />
                     </ListItemIcon>
                     Meu Perfil
                 </MenuItem>
 
-                <MenuItem onClick={handleSettings} sx={{ py: 1.5 }}>
+                <MenuItem onClick={handleSettings} sx={{ py: 1.5, fontFamily: 'secondaryText.fontFamily' }}>
                     <ListItemIcon>
                         <Settings fontSize="small" sx={{ fontSize: 24, color: '#A87B4F' }} />
                     </ListItemIcon>
@@ -224,7 +224,7 @@ export function AppBar() {
 
                 <Divider />
 
-                <MenuItem onClick={handleLogout} sx={{ py: 1.5, color: 'error.main' }}>
+                <MenuItem onClick={handleLogout} sx={{ py: 1.5, color: 'error.main', fontFamily: 'secondaryText.fontFamily' }}>
                     <ListItemIcon>
                         <Logout fontSize="small" sx={{ color: 'error.main' }} />
                     </ListItemIcon>

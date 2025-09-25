@@ -12,7 +12,7 @@ import {
     ListItemIcon,
     useMediaQuery,
     useTheme,
-    styled
+    styled, Grid
 } from '@mui/material';
 import {
     Menu as MenuIcon,
@@ -29,7 +29,7 @@ const StyledAppBar = styled(MuiAppBar, {
     zIndex: theme.zIndex.drawer + 1,
     backgroundColor: '#FFFFFF',
     color: '#333',
-    boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+    boxShadow: 'none', // 🔹 sem sombra global
     transition: theme.transitions.create(['width', 'margin'], {
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.leavingScreen,
@@ -37,10 +37,6 @@ const StyledAppBar = styled(MuiAppBar, {
     ...(open && {
         marginLeft: drawerWidth,
         width: `calc(100% - 240px)`,
-        transition: theme.transitions.create(['width', 'margin'], {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.enteringScreen,
-        }),
     }),
     ...(!open && {
         width: `calc(100% - 55px)`,
@@ -51,7 +47,7 @@ const StyledAppBar = styled(MuiAppBar, {
     },
 }));
 
-export function AppBar() {
+export function AppBar({ title }) {
     const { drawerOpen, handleToggleDrawer, userData } = useApp();
     const [anchorEl, setAnchorEl] = useState(null);
     const theme = useTheme();
@@ -85,8 +81,13 @@ export function AppBar() {
     return (
         <>
             <StyledAppBar position="fixed" open={!isMobile && drawerOpen}>
-                <Toolbar sx={{ justifyContent: 'space-between' }}>
-                    {/* Lado esquerdo - Botão do menu */}
+                <Toolbar
+                    sx={{
+                        justifyContent: 'space-between',
+                        boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+                        zIndex: 1,
+                    }}
+                >                    {/* Lado esquerdo - Botão do menu */}
                     <Box sx={{ display: 'flex', alignItems: 'center' }}>
                         <IconButton
                             color="inherit"
@@ -105,7 +106,7 @@ export function AppBar() {
                         </IconButton>
 
                         <Typography
-                            variant="h3"
+                            variant="h2"
                             noWrap
                             component="div"
                             sx={{
@@ -132,7 +133,6 @@ export function AppBar() {
                             Olá {userData?.name || 'Usuário'}!
                         </Typography>
 
-                        {/* Avatar/Ícone de perfil */}
                         <IconButton
                             size="large"
                             aria-label="account of current user"
@@ -148,17 +148,44 @@ export function AppBar() {
                             }}
                         >
                             {userData?.avatar ? (
-                                <Avatar
-                                    src={userData.avatar}
-                                    sx={{ width: 42, height: 42 }}
-                                />
+                                <Avatar src={userData.avatar} sx={{ width: 42, height: 42 }} />
                             ) : (
                                 <AccountCircle sx={{ fontSize: 32 }} />
                             )}
                         </IconButton>
                     </Box>
                 </Toolbar>
+
+                {/* Header dinâmico (abaixo da Toolbar) */}
+                <Box
+                    sx={{
+                        zIndex: -10,
+                        width: '100%',
+                        height: 64,
+                        display: 'flex',
+                        alignItems: 'center',
+                        pl: isMobile ? 2 : drawerOpen ? '65px' : '50px',
+                        pr: 3,
+                        backgroundColor: '#f5f5f5',
+                        borderTop: `1px solid ${theme.palette.divider}`,
+                        borderBottom: 'none',
+                        boxShadow: 'none',
+                    }}
+                >
+                    <Typography
+                        sx={{
+                            color: 'primary.main',
+                            fontFamily: theme.typography.secondaryText.fontFamily,
+                            fontWeight: 'bold',
+                            fontSize: '2.5rem',
+                            mt: 3
+                        }}
+                    >
+                        {title || 'Dashboard'}
+                    </Typography>
+                </Box>
             </StyledAppBar>
+
 
             {/* Menu do Perfil */}
             <Menu

@@ -1,7 +1,6 @@
 import { useLocation } from "react-router-dom";
 import { Box, Container, useTheme, useMediaQuery } from "@mui/material";
 import { AppBar } from "../components/AppBar.jsx";
-import HeaderBar from "../components/HeaderBar.jsx";
 import Sidebar from "../components/Sidebar.jsx";
 import { useApp } from "../contexts/AppContext.jsx";
 
@@ -24,15 +23,9 @@ export function AppLayout({ children }) {
     const currentItem = menuItems.find(item => item.path === location.pathname);
     const title = currentItem ? currentItem.text : "Página";
 
-    const drawerWidth = drawerOpen ? "260px" : "75px";
-
     return (
         <Box sx={{ display: 'flex' }}>
-            <AppBar />
-            <HeaderBar
-                title={title}
-                drawerWidth={drawerWidth}
-            />
+            <AppBar title={title} />
             <Sidebar />
 
             <Box
@@ -41,15 +34,15 @@ export function AppLayout({ children }) {
                     flexGrow: 1,
                     bgcolor: '#f5f5f5',
                     minHeight: '100vh',
+                    minWidth: '100%',
                     pt: 8,
-                    ml: isMobile ? 0 : drawerWidth,
                     transition: theme.transitions.create(['margin'], {
                         easing: theme.transitions.easing.sharp,
                         duration: theme.transitions.duration.standard,
                     }),
                 }}
             >
-                <Container maxWidth={false} sx={{ maxWidth: 1920, py: 3 }}>
+                <Container maxWidth>
                     {children}
                 </Container>
             </Box>

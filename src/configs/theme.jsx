@@ -14,6 +14,9 @@ let theme = createTheme({
         mainTransparent: {
             main: 'rgba(156, 110, 67, 0.7)'
         },
+        light: {
+            main: 'rgba(209, 169, 125, 0.15)'
+        },
         error: {
             main: '#f10606',
         },

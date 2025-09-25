@@ -46,6 +46,7 @@ const StyledDrawer = styled(Drawer, {
         backgroundColor: '#FFFFFF',
         borderRight: 'none',
         boxShadow: '4px 0 6px -2px rgba(0,0,0,0.3)',
+        zIndex: theme.zIndex.drawer + 2,
         transition: theme.transitions.create('width', {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.enteringScreen,
@@ -89,7 +90,7 @@ export default function Sidebar() {
             height: '100%',
             display: 'flex',
             flexDirection: 'column',
-            boxShadow: '4px 0 6px -2px rgba(0,0,0,1)'
+            boxShadow: '4px 0 6px -2px rgba(0,0,0,1)',
         }}>
             {/* Header com Logo e Título */}
             <Box
@@ -137,7 +138,7 @@ export default function Sidebar() {
                 )}
             </Box>
 
-            <List sx={{ pt: drawerOpen ? 0 : 0.7 }}> {/* 1 * 0.67 = 0.67 */}
+            <List sx={{ pt: drawerOpen ? 0 : 0.7 }}>
                 <ListItem key={"Dashboard"} disablePadding>
                     <Tooltip
                         title={!drawerOpen ? "Dashboard" : ""}
@@ -150,8 +151,8 @@ export default function Sidebar() {
                             sx={{
                                 '&.Mui-selected': { bgcolor: '#F5F5F5' },
                                 '&:hover': { bgcolor: '#F5F5F5' },
-                                py: 1.3, // 2 * 0.67 = 1.34
-                                px: drawerOpen ? 1.3 : 0.7, // 2 * 0.67 = 1.34, 1 * 0.67 = 0.67
+                                py: 1.3,
+                                px: drawerOpen ? 1.3 : 0.7,
                                 justifyContent: drawerOpen ? 'flex-start' : 'center',
                                 transition: (theme) =>
                                     theme.transitions.create(['padding', 'justify-content'], {
@@ -161,20 +162,20 @@ export default function Sidebar() {
                         >
                             <ListItemIcon sx={{
                                 color: '#A87B4F',
-                                minWidth: drawerOpen ? 40 : 'auto', // 60 * 0.67 = 40
+                                minWidth: drawerOpen ? 40 : 'auto',
                                 justifyContent: 'center',
                                 transition: theme.transitions.create('min-width', {
                                     duration: theme.transitions.duration.standard,
                                 })
                             }}>
-                                <Dashboard sx={{ fontSize: 21 }} /> {/* 32 * 0.67 = 21 (assumindo que era 32 como os outros) */}
+                                <Dashboard sx={{ fontSize: 21 }} />
                             </ListItemIcon>
                             {drawerOpen && (
                                 <ListItemText
                                     primary={"Dashboard"}
                                     primaryTypographyProps={{
                                         fontFamily: 'secondaryText.fontFamily',
-                                        fontSize: '0.8rem', // 1.2rem * 0.67 = 0.8rem
+                                        fontSize: '1.2rem',
                                         color: 'secondary.main'
                                     }}
                                     sx={{
@@ -195,8 +196,8 @@ export default function Sidebar() {
                 sx={{
                     bgcolor: 'mainTransparent.main',
                     color: 'white',
-                    px: 2, // 3 * 0.67 = 2
-                    py: 2, // 3 * 0.67 = 2
+                    px: 2,
+                    py: 2,
                     transition: theme.transitions.create('opacity', {
                         duration: theme.transitions.duration.standard,
                     }),
@@ -208,8 +209,8 @@ export default function Sidebar() {
                         sx={{
                             color: 'secondary.main',
                             fontWeight: 'bold',
-                            fontSize: '0.8rem', // 1.2rem * 0.67 = 0.8rem
-                            paddingLeft: 2, // 3 * 0.67 = 2
+                            fontSize: '1.5rem',
+                            paddingLeft: 2,
                         }}
                         variant="secondaryText"
                     >
@@ -218,7 +219,7 @@ export default function Sidebar() {
                 )}
             </Box>
 
-            <List sx={{ pt: drawerOpen ? 0 : 0.7 }}> {/* 1 * 0.67 = 0.67 */}
+            <List sx={{ pt: drawerOpen ? 0 : 0.7 }}>
                 {menuItems.map((item, index) => (
                     <ListItem key={item.text} disablePadding>
                         <Tooltip
@@ -232,8 +233,8 @@ export default function Sidebar() {
                                 sx={{
                                     '&.Mui-selected': { bgcolor: '#F5F5F5' },
                                     '&:hover': { bgcolor: '#F5F5F5' },
-                                    py: 1.3, // 2 * 0.67 = 1.34
-                                    px: drawerOpen ? 1.3 : 0.7, // 2 * 0.67 = 1.34, 1 * 0.67 = 0.67
+                                    py: 1.3,
+                                    px: drawerOpen ? 1.3 : 0.7,
                                     justifyContent: drawerOpen ? 'flex-start' : 'center',
                                     borderBottom: (theme) =>
                                         drawerOpen
@@ -249,7 +250,7 @@ export default function Sidebar() {
                             >
                                 <ListItemIcon sx={{
                                     color: '#A87B4F',
-                                    minWidth: drawerOpen ? 40 : 'auto', // 60 * 0.67 = 40
+                                    minWidth: drawerOpen ? 40 : 'auto',
                                     justifyContent: 'center',
                                     transition: theme.transitions.create('min-width', {
                                         duration: theme.transitions.duration.standard,
@@ -262,7 +263,7 @@ export default function Sidebar() {
                                         primary={item.text}
                                         primaryTypographyProps={{
                                             fontFamily: 'secondaryText.fontFamily',
-                                            fontSize: '0.8rem', // 1.2rem * 0.67 = 0.8rem
+                                            fontSize: '1.2rem',
                                             color: 'secondary.main'
                                         }}
                                         sx={{
@@ -284,8 +285,8 @@ export default function Sidebar() {
                 sx={{
                     bgcolor: 'mainTransparent.main',
                     color: 'white',
-                    px: 2, // 3 * 0.67 = 2
-                    py: 2, // 3 * 0.67 = 2
+                    px: 2,
+                    py: 2,
                     transition: theme.transitions.create('opacity', {
                         duration: theme.transitions.duration.standard,
                     }),
@@ -297,8 +298,8 @@ export default function Sidebar() {
                         sx={{
                             color: 'secondary.main',
                             fontWeight: 'bold',
-                            fontSize: '0.8rem', // 1.2rem * 0.67 = 0.8rem
-                            paddingLeft: 2, // 3 * 0.67 = 2
+                            fontSize: '1.5rem',
+                            paddingLeft: 2,
                         }}
                         variant="secondaryText"
                     >
@@ -307,7 +308,7 @@ export default function Sidebar() {
                 )}
             </Box>
 
-            <List sx={{ pt: drawerOpen ? 0 : 0.7 }}> {/* 1 * 0.67 = 0.67 */}
+            <List sx={{ pt: drawerOpen ? 0 : 0.7 }}>
                 {managementItems.map((item, index) => (
                     <ListItem key={item.text} disablePadding>
                         <Tooltip
@@ -321,8 +322,8 @@ export default function Sidebar() {
                                 sx={{
                                     '&.Mui-selected': { bgcolor: '#F5F5F5' },
                                     '&:hover': { bgcolor: '#F5F5F5' },
-                                    py: 1.3, // 2 * 0.67 = 1.34
-                                    px: drawerOpen ? 1.3 : 0.7, // 2 * 0.67 = 1.34, 1 * 0.67 = 0.67
+                                    py: 1.3,
+                                    px: drawerOpen ? 1.3 : 0.7,
                                     justifyContent: drawerOpen ? 'flex-start' : 'center',
                                     borderBottom: (theme) =>
                                         drawerOpen
@@ -338,7 +339,7 @@ export default function Sidebar() {
                             >
                                 <ListItemIcon sx={{
                                     color: '#A87B4F',
-                                    minWidth: drawerOpen ? 40 : 'auto', // 60 * 0.67 = 40
+                                    minWidth: drawerOpen ? 40 : 'auto',
                                     justifyContent: 'center',
                                     transition: theme.transitions.create('min-width', {
                                         duration: theme.transitions.duration.standard,
@@ -351,7 +352,7 @@ export default function Sidebar() {
                                         primary={item.text}
                                         primaryTypographyProps={{
                                             fontFamily: 'secondaryText.fontFamily',
-                                            fontSize: '0.8rem', // 1.2rem * 0.67 = 0.8rem
+                                            fontSize: '1.2rem',
                                             color: 'secondary.main',
                                         }}
                                         sx={{

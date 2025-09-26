@@ -45,7 +45,7 @@ export function AppLayout({ children }) {
                     minHeight: '100vh',
                     minWidth: '100%',
                     pt: 8,
-                    pl: 28,
+                    pl: 4,
                     transition: theme.transitions.create(['margin'], {
                         easing: theme.transitions.easing.sharp,
                         duration: theme.transitions.duration.standard,

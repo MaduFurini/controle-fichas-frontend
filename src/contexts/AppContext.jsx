@@ -42,8 +42,8 @@ export const AppProvider = ({ children }) => {
         return parseInt(localStorage.getItem("@Sacramentum:communityIdSelected")) || null;
     }
 
-    function setCommunityIdSession(empresaId) {
-        localStorage.setItem("@Sacramentum:communityIdSelected", empresaId);
+    function setCommunityIdSession(communityId) {
+        localStorage.setItem("@Sacramentum:communityIdSelected", communityId);
     }
 
     function handleToggleDrawer() {

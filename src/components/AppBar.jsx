@@ -87,7 +87,8 @@ export function AppBar({ title }) {
                         boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
                         zIndex: 1,
                     }}
-                >                    {/* Lado esquerdo - Botão do menu */}
+                >
+                    {/* Lado esquerdo - Botão do menu */}
                     <Box sx={{ display: 'flex', alignItems: 'center' }}>
                         <IconButton
                             color="inherit"
@@ -164,7 +165,7 @@ export function AppBar({ title }) {
                         height: 64,
                         display: 'flex',
                         alignItems: 'center',
-                        pl: isMobile ? 2 : drawerOpen ? '65px' : '50px',
+                        pl: isMobile ? 2 : drawerOpen ? '55px' : '50px',
                         pr: 3,
                         backgroundColor: '#f5f5f5',
                         borderTop: `1px solid ${theme.palette.divider}`,

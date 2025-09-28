@@ -26,29 +26,28 @@ import { useApp } from '../contexts/AppContext.jsx';
 const StyledAppBar = styled(MuiAppBar, {
     shouldForwardProp: (prop) => prop !== 'open' && prop !== 'drawerWidth',
 })(({ theme, open, drawerWidth }) => ({
-    zIndex: theme.zIndex.drawer + 1,
     backgroundColor: '#FFFFFF',
     color: '#333',
     boxShadow: 'none', // 🔹 sem sombra global
     transition: theme.transitions.create(['width', 'margin'], {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.leavingScreen,
+        easing: theme.transitions.easing.easeOut,
+        duration: theme.transitions.duration.enteringScreen,
     }),
     ...(open && {
-        marginLeft: drawerWidth,
-        width: `calc(100% - 240px)`,
+        width: `calc(100% - ${drawerWidth})`,
     }),
     ...(!open && {
-        width: `calc(100% - 55px)`,
+        width: `calc(100% - ${drawerWidth})`,
     }),
     [theme.breakpoints.down('md')]: {
         marginLeft: 0,
-        width: `calc(100% - 55px)`,
+        width: `calc(100% - ${drawerWidth})`,
     },
 }));
 
-export function AppBar({ title }) {
+export function AppBar({ drawerWidth, title }) {
     const { drawerOpen, handleToggleDrawer, userData } = useApp();
+
     const [anchorEl, setAnchorEl] = useState(null);
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('md'));
@@ -80,7 +79,7 @@ export function AppBar({ title }) {
 
     return (
         <>
-            <StyledAppBar position="fixed" open={!isMobile && drawerOpen}>
+            <StyledAppBar open={drawerOpen} drawerWidth={drawerWidth}>
                 <Toolbar
                     sx={{
                         justifyContent: 'space-between',
@@ -101,7 +100,6 @@ export function AppBar({ title }) {
                                     backgroundColor: 'rgba(168, 123, 79, 0.1)',
                                 }
                             }}
-                            disabled={isMobile}
                         >
                             <MenuIcon sx={{ fontSize: 28 }} />
                         </IconButton>
@@ -160,7 +158,6 @@ export function AppBar({ title }) {
                 {/* Header dinâmico (abaixo da Toolbar) */}
                 <Box
                     sx={{
-                        zIndex: -10,
                         width: '100%',
                         height: 64,
                         display: 'flex',
@@ -218,7 +215,6 @@ export function AppBar({ title }) {
                             height: 10,
                             bgcolor: 'background.paper',
                             transform: 'translateY(-50%) rotate(45deg)',
-                            zIndex: 0,
                         },
                     },
                 }}

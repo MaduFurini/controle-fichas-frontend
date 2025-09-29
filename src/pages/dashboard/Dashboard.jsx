@@ -166,11 +166,22 @@ export default function Dashboard() {
         <Grid
             container
             spacing={3}
-            justifyContent="flex-start"
+            justifyContent={isMobile ? "center" : "flex-start"}
             alignItems="flex-start"
             paddingTop={15}
+            sx={{
+                flexDirection: isMobile ? 'column' : 'row',
+                alignItems: isMobile ? 'center' : 'flex-start',
+            }}
         >
-            <Grid item xs={12}>
+            {/* Card de Próximas Festividades  */}
+            <Grid
+                item
+                sx={{
+                    width: isMobile ? '100%' : '30vw',
+                    maxWidth: isMobile ? '80vw' : 'none',
+                }}
+            >
                 <ResponsiveCard>
                     <Grid container alignItems="center" spacing={2}>
                         <Grid item>
@@ -197,7 +208,16 @@ export default function Dashboard() {
                 </ResponsiveCard>
             </Grid>
 
-            <Grid item sx={{ width: { xs: '50%', md: '50vw' } }}>
+            {/* Card de Liturgia Diária */}
+            <Grid
+                item
+                xs={12}
+                md={6}
+                sx={{
+                    width: isMobile ? '90%' : '50vw',
+                    maxWidth: isMobile ? '80vw' : 'none',
+                }}
+            >
                 <LiturgiaCard>
                     <Grid container direction="column" spacing={2} sx={{ height: '100%' }}>
                         <Grid item container alignItems="center" spacing={2}>

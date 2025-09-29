@@ -28,7 +28,7 @@ const StyledAppBar = styled(MuiAppBar, {
 })(({ theme, open, drawerWidth }) => ({
     backgroundColor: '#FFFFFF',
     color: '#333',
-    boxShadow: 'none', // 🔹 sem sombra global
+    boxShadow: 'none',
     transition: theme.transitions.create(['width', 'margin'], {
         easing: theme.transitions.easing.easeOut,
         duration: theme.transitions.duration.enteringScreen,
@@ -85,6 +85,7 @@ export function AppBar({ drawerWidth, title }) {
                         justifyContent: 'space-between',
                         boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
                         zIndex: 1,
+                        height: '6vh',
                     }}
                 >
                     {/* Lado esquerdo - Botão do menu */}

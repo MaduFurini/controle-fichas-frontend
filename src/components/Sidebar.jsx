@@ -10,7 +10,7 @@ import {
     useTheme,
     styled,
     Tooltip,
-    Grid, Stack, ListSubheader, IconButton, Toolbar
+    Grid, Stack, ListSubheader, IconButton, Box
 } from "@mui/material";
 import React, {useEffect, useState} from "react";
 import {
@@ -20,32 +20,12 @@ import {
     Inventory,
     Assessment,
     Church,
-    Person, Favorite, Dashboard, Close
+    Person, Favorite, Dashboard, Close, Image, DashboardOutlined
 } from '@mui/icons-material';
 import { useApp } from "../contexts/AppContext.jsx";
 import LogoParoquia from "../assets/images/logo_paroquia.png";
 import {useNavigate} from "react-router-dom";
-
-const openedMixin = (theme, isXlScreen) => ({
-    width: '16%',
-    transition: theme.transitions.create('width', {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.enteringScreen,
-    }),
-    overflowX: 'hidden',
-});
-
-const closedMixin = (theme) => ({
-    transition: theme.transitions.create('width', {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.leavingScreen,
-    }),
-    overflowX: 'hidden',
-    width: `calc(${theme.spacing(7)} + 1px)`,
-    [theme.breakpoints.up('sm')]: {
-        width: `calc(${theme.spacing(8)} + 1px)`,
-    },
-});
+import {LinkMenu} from "./LinkMenu.jsx";
 
 const PermanentDrawer = styled(Drawer)(
     ({ open, theme }) => ({
@@ -57,7 +37,7 @@ const PermanentDrawer = styled(Drawer)(
         left: 0,
         height: '100vh',
         transition: theme.transitions.create('width', {
-            easing: theme.transitions.easing.easeOut,
+            easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.enteringScreen,
         }),
         '& .MuiDrawer-paper': {
@@ -66,8 +46,9 @@ const PermanentDrawer = styled(Drawer)(
             top: 0,
             left: 0,
             height: '100vh',
+            overflow: "hidden",
             transition: theme.transitions.create('width', {
-                easing: theme.transitions.easing.easeOut,
+                easing: theme.transitions.easing.sharp,
                 duration: theme.transitions.duration.enteringScreen,
             }),
         },
@@ -75,15 +56,15 @@ const PermanentDrawer = styled(Drawer)(
 );
 
 const menuItems = [
-    { text: 'Festividades', icon: <Event sx={{ fontSize: 21 }} />, path: '/festividades' },
-    { text: 'Equipamentos', icon: <Devices sx={{ fontSize: 21 }} />, path: '/equipamentos' },
-    { text: 'Produtos', icon: <Inventory sx={{ fontSize: 21 }} />, path: '/produtos' },
-    { text: 'Relatórios', icon: <Assessment sx={{ fontSize: 21 }} />, path: '/relatorios' }
+    { text: 'Festividades', icon: <Event sx={{ fontSize: 28, color: 'primary.main' }} />, path: '/festividades' },
+    { text: 'Equipamentos', icon: <Devices sx={{ fontSize: 28, color: 'primary.main' }} />, path: '/equipamentos' },
+    { text: 'Produtos', icon: <Inventory sx={{ fontSize: 28, color: 'primary.main' }} />, path: '/produtos' },
+    { text: 'Relatórios', icon: <Assessment sx={{ fontSize: 28, color: 'primary.main' }} />, path: '/relatorios' }
 ];
 
 const managementItems = [
-    { text: 'Comunidades', icon: <Church sx={{ fontSize: 21 }} />, path: '/comunidades' },
-    { text: 'Usuários', icon: <Person sx={{ fontSize: 21 }} />, path: '/usuarios' }
+    { text: 'Comunidades', icon: <Church sx={{ fontSize: 28, color: 'primary.main' }} />, path: '/comunidades' },
+    { text: 'Usuários', icon: <Person sx={{ fontSize: 28, color: 'primary.main' }} />, path: '/usuarios' }
 ];
 
 export default function Sidebar() {
@@ -94,7 +75,6 @@ export default function Sidebar() {
 
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('lg'));
-    const isXlScreen = useMediaQuery(theme => theme.breakpoints.up("xl"));
     const isXXlScreen = useMediaQuery('(min-width:1921px)');
 
     const navigate = useNavigate();
@@ -114,86 +94,257 @@ export default function Sidebar() {
     const menu = () => {
         return (
             <>
+                {/* Header fixo */}
+                <Stack
+                    direction="row"
+                    justifyContent={drawerOpen ? "space-between" : "center"}
+                    alignItems="center"
+                    spacing={drawerOpen ? 2 : 0}
+                    sx={{
+                        px: drawerOpen ? 2 : 1,
+                        py: drawerOpen ? 2 : 1,
+                        borderBottom: "1px solid",
+                        borderColor: "divider",
+                        bgcolor: "primary.main",
+                        minHeight: 80,
+                    }}
+                >
+                    <Box
+                        sx={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: drawerOpen ? 1 : 0,
+                            minWidth: 0,
+                            overflowX: 'hidden',
+                            justifyContent: drawerOpen ? "flex-start" : "center",
+                        }}
+                    >
+                        <img
+                            src={LogoParoquia}
+                            alt="Logo"
+                            style={{
+                                width: drawerOpen ? 90 : 70,
+                                height: drawerOpen ? 90 : 70,
+                                transition: 'all 0.3s ease'
+                            }}
+                        />
+                        {drawerOpen && (
+                            <Box sx={{ overflow: "hidden" }}>
+                                <Typography variant="h1" color='white' noWrap>
+                                    Sacramentum
+                                </Typography>
+                                <Typography variant="secondaryText" color="white" noWrap>
+                                    Nome da Paróquia
+                                </Typography>
+                            </Box>
+                        )}
+                    </Box>
+
+                    {drawerOpen && (
+                        <IconButton
+                            onClick={handleCloseDrawer}
+                            sx={{
+                                display: { xs: "block", lg: "none" },
+                                color: "inherit",
+                            }}
+                        >
+                            <Close />
+                        </IconButton>
+                    )}
+                </Stack>
+
+                {/* Lista de menus */}
                 <List
                     sx={{
-                        overflowX: 'hidden',
-                        paddingTop: 1,
-                        width: '100%',
-                        minHeight: isXXlScreen ? '100vh' : 'auto',
-                        height: {
-                            md: "100%"
-                        },
-                        bgcolor: 'background.paper',
-                        boxShadow: {
-                            xs: 0,
-                            lg: 2
-                        }
+                        overflowX: "hidden",
+                        width: "100%",
+                        minHeight: isXXlScreen ? "100vh" : "auto",
+                        height: { md: "100%" },
+                        bgcolor: "background.paper",
+                        boxShadow: { xs: 0, lg: 2 },
+                        p: 0
                     }}
                     component="nav"
                     aria-labelledby="nested-list-subheader"
                     disablePadding
-                    subheader={
-                        <Stack
-                            direction="row"
-                            justifyContent="space-between"
-                            alignItems="flex-start"
-                            spacing={2}
-                        >
-                            <ListSubheader style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                                Olá User
-                            </ListSubheader>
-                            <IconButton
-                                onClick={handleCloseDrawer}
+                >
+                    {/* Dashboard */}
+                    <Tooltip title={!drawerOpen ? "Dashboard" : ""} placement="right">
+                        <ListItem disablePadding>
+                            <ListItemButton
+                                onClick={() => handleMenuClick('/dashboard', 'Dashboard')}
+                                selected={currentPath === '/dashboard'}
                                 sx={{
-                                    display: {
-                                        xs: 'block',
-                                        lg: 'none'
-                                    },
-                                    color: 'inherit'
+                                    minHeight: 48,
+                                    justifyContent: drawerOpen ? 'initial' : 'center',
+                                    px: 2.5
                                 }}
                             >
-                                <Close />
-                            </IconButton>
-                        </Stack>
-                    }
-                >
+                                <ListItemIcon
+                                    sx={{
+                                        minWidth: 0,
+                                        mr: drawerOpen ? 3 : 0,
+                                        justifyContent: 'center',
+                                    }}
+                                >
+                                    <DashboardOutlined sx={{ fontSize: 28, color: 'primary.main' }} />
+                                </ListItemIcon>
+                                {drawerOpen && (
+                                    <ListItemText
+                                        primary="Dashboard"
+                                        primaryTypographyProps={{
+                                            fontSize: "1.4rem",
+                                            color: "secondary.main",
+                                            fontFamily: "secondaryText.fontFamily"
+                                        }}
+                                        sx={{ opacity: drawerOpen ? 1 : 0 }}
+                                    />
+                                )}
+                            </ListItemButton>
+                        </ListItem>
+                    </Tooltip>
 
+                    {/* Seção Página Inicial */}
+                    <ListSubheader
+                        sx={{
+                            bgcolor: "mainTransparent.main",
+                            color: "white",
+                            fontWeight: "bold",
+                            lineHeight: "36px",
+                            fontSize: "16px",
+                            pl: 5,
+                            pt: 2,
+                            pb: 2
+                        }}
+                    >
+                        {drawerOpen ? 'Página Inicial' : ''}
+                    </ListSubheader>
+
+                    {/* Menu Items */}
+                    {menuItems.map((item, index) => (
+                        <Tooltip key={index} title={!drawerOpen ? item.text : ""} placement="right">
+                            <ListItem disablePadding>
+                                <ListItemButton
+                                    onClick={() => handleMenuClick(item.path, item.text)}
+                                    selected={currentPath === item.path}
+                                    sx={{
+                                        minHeight: 48,
+                                        justifyContent: drawerOpen ? 'initial' : 'center',
+                                        px: 2.5,
+                                    }}
+                                >
+                                    <ListItemIcon
+                                        sx={{
+                                            minWidth: 0,
+                                            mr: drawerOpen ? 3 : 0,
+                                            justifyContent: 'center',
+                                        }}
+                                    >
+                                        {item.icon}
+                                    </ListItemIcon>
+                                    {drawerOpen && (
+                                        <ListItemText
+                                            primary={item.text}
+                                            primaryTypographyProps={{
+                                                fontSize: "1.4rem",
+                                                color: "secondary.main",
+                                                fontFamily: "secondaryText.fontFamily"
+                                            }}
+                                            sx={{ opacity: drawerOpen ? 1 : 0 }}
+                                        />
+                                    )}
+                                </ListItemButton>
+                            </ListItem>
+                        </Tooltip>
+                    ))}
+
+                    {/* Seção Gerenciamento */}
+                    <ListSubheader
+                        sx={{
+                            bgcolor: "mainTransparent.main",
+                            color: "white",
+                            fontWeight: "bold",
+                            lineHeight: "36px",
+                            fontSize: "16px",
+                            pl: 5,
+                            pt: 2,
+                            pb: 2
+                        }}
+                    >
+                        {drawerOpen ? 'Gerenciamento' : ''}
+                    </ListSubheader>
+
+                    {/* Management Items */}
+                    {managementItems.map((item, index) => (
+                        <Tooltip key={index} title={!drawerOpen ? item.text : ""} placement="right">
+                            <ListItem disablePadding>
+                                <ListItemButton
+                                    onClick={() => handleMenuClick(item.path, item.text)}
+                                    selected={currentPath === item.path}
+                                    sx={{
+                                        minHeight: 48,
+                                        justifyContent: drawerOpen ? 'initial' : 'center',
+                                        px: 2.5,
+                                    }}
+                                >
+                                    <ListItemIcon
+                                        sx={{
+                                            minWidth: 0,
+                                            mr: drawerOpen ? 3 : 0,
+                                            justifyContent: 'center',
+                                        }}
+                                    >
+                                        {item.icon}
+                                    </ListItemIcon>
+                                    {drawerOpen && (
+                                        <ListItemText
+                                            primary={item.text}
+                                            primaryTypographyProps={{
+                                                fontSize: "1.4rem",
+                                                color: "secondary.main",
+                                                fontFamily: "secondaryText.fontFamily"
+                                            }}
+                                            sx={{ opacity: drawerOpen ? 1 : 0 }}
+                                        />
+                                    )}
+                                </ListItemButton>
+                            </ListItem>
+                        </Tooltip>
+                    ))}
                 </List>
             </>
-        )
-    }
+        );
+    };
 
     return (
         <>
-            {
-                isMobile ?
-                    (
-                        <Drawer
-                            variant='temporary'
-                            anchor='left'
-                            open={drawerOpen}
-                            onClose={handleCloseDrawer}
-                            sx={{
-                                '& .MuiDrawer-paper': {
-                                    width: '100vw', // 🔹 Ocupa a tela inteira no mobile
-                                    maxWidth: '100%',
-                                    height: '100vh'
-                                }
-                            }}
-                        >
-                            {menu()}
-                        </Drawer>
-                    ) : (
-                        <PermanentDrawer
-                            variant='permanent'
-                            anchor='left'
-                            open={drawerOpen}
-                            onClose={handleCloseDrawer}
-                        >
-                            <Toolbar />
-                            {menu()}
-                        </PermanentDrawer>
-                    )
+            {isMobile ?
+                (
+                    <Drawer
+                        variant='temporary'
+                        anchor='left'
+                        open={drawerOpen}
+                        onClose={handleCloseDrawer}
+                        sx={{
+                            '& .MuiDrawer-paper': {
+                                width: '100vw',
+                                maxWidth: 320,
+                                height: '100vh'
+                            }
+                        }}
+                    >
+                        {menu()}
+                    </Drawer>
+                ) : (
+                    <PermanentDrawer
+                        variant='permanent'
+                        anchor='left'
+                        open={drawerOpen}
+                        onClose={handleCloseDrawer}
+                    >
+                        {menu()}
+                    </PermanentDrawer>
+                )
             }
         </>
     );

@@ -45,13 +45,12 @@ export function AppLayout({ children }) {
                 component="main"
                 sx={{
                     flexGrow: 1,
-
                     marginLeft: {
                         xs: 0,
                         lg: `${currentDrawerWidth}px`
                     },
                     mt: { xs: 7, md: 9 },
-                    px: { xs: 2, md: 3 },
+                    px: { xs: 2, md: 6 },
                     pb: 3,
                     width: {
                         xs: '100%',

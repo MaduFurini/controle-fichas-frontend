@@ -18,8 +18,21 @@ export const AlertProvider = ({ children }) => {
         severity: 'info',
     });
 
+    const [dialog, setDialog] = useState({
+        open: false,
+        message: '',
+    });
+
     const exibirAlerta = (message, title = '', severity = 'info') => {
         setAlert({ open: true, title, message, severity });
+    };
+
+    const exibirDialog = (message) => {
+        setDialog({ open: true, message });
+    };
+
+    const handleCloseDialog = () => {
+        setDialog((prevState) => ({ ...prevState, open: false }));
     };
 
     const handleClose = () => {

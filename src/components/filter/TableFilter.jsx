@@ -7,13 +7,13 @@ import Index from "../datePicker/index.jsx";
 import dayjs from 'dayjs';
 import {TableFilterButtons} from "./TableFilterButtons.jsx";
 
-export function TableFilter(
-    isOpenFilters,
-    isLoadingList,
-    communities,
-    item,
-    hasDate
-) {
+export function TableFilter({
+                                isOpenFilters,
+                                isLoadingList,
+                                communities,
+                                item,
+                                hasDate
+                            }) {
     const {setCommunityIdSession} = useApp();
 
     const [searchParams, setSearchParams] = useSearchParams();
@@ -62,11 +62,11 @@ export function TableFilter(
     }
 
     return (
-        <Grid item xs={12} component="form" onSubmit={handleSubmit(handleSubmitFilter)}>
+        <Grid item size={12} component="form" onSubmit={handleSubmit(handleSubmitFilter)}>
             <Collapse in={isOpenFilters}>
                 <Card variant="outlined" sx={{ padding: 2 }}>
                     <Grid container spacing={2}>
-                        <Grid item xs={12} md={4}>
+                        <Grid item size={6}>
                             <Controller
                                 name="communityId"
                                 control={control}
@@ -89,7 +89,7 @@ export function TableFilter(
                             />
                         </Grid>
 
-                        <Grid item xs={12} md={4}>
+                        <Grid item size={6}>
                             <Controller
                                 name="name"
                                 control={control}
@@ -106,7 +106,7 @@ export function TableFilter(
                         </Grid>
 
                         {hasDate && (
-                            <Grid item xs={12} md={4}>
+                            <Grid item size={6}>
                                 <Index
                                     value={dateRange}
                                     bgColor='#fff'
@@ -128,22 +128,23 @@ export function TableFilter(
                             </Grid>
                         )}
 
-                        <TableFilterButtons
-                            isLoadingList={isLoadingList}
-                            handleClearFilters={() => {
-                                setSearchParams((state) => {
-                                    state.delete('name');
-                                    state.delete('page', '1');
+                        <Grid size={6}>
+                            <TableFilterButtons
+                                isLoading={isLoadingList}
+                                handleClearFilters={() => {
+                                    setSearchParams((state) => {
+                                        state.delete('name')
+                                        state.delete('page', '1')
+                                        return state
+                                    })
 
-                                    return state;
-                                });
-
-                                reset({
-                                    communityId: communityId ?? '',
-                                    name: ''
-                                })
-                            }}
-                        />
+                                    reset({
+                                        communityId: communityId ?? '',
+                                        name: ''
+                                    })
+                                }}
+                            />
+                        </Grid>
                     </Grid>
                 </Card>
             </Collapse>

@@ -10,7 +10,7 @@ import {
     useTheme,
     styled,
     Tooltip,
-    Grid, Stack, ListSubheader, IconButton, Box
+    Grid, Stack, ListSubheader, IconButton, Box, Collapse
 } from "@mui/material";
 import React, {useEffect, useState} from "react";
 import {
@@ -20,7 +20,8 @@ import {
     Inventory,
     Assessment,
     Church,
-    Person, Favorite, Dashboard, Close, Image, DashboardOutlined
+    Person, Favorite, Dashboard, Close, Image, DashboardOutlined,
+    ExpandLess, ExpandMore, Category, ShoppingCart, Receipt, AccountBalance
 } from '@mui/icons-material';
 import { useApp } from "../contexts/AppContext.jsx";
 import LogoParoquia from "../assets/images/logo_paroquia.png";
@@ -58,8 +59,26 @@ const PermanentDrawer = styled(Drawer)(
 const menuItems = [
     { text: 'Festividades', icon: <Event sx={{ fontSize: 28, color: 'primary.main' }} />, path: '/festividades' },
     { text: 'Equipamentos', icon: <Devices sx={{ fontSize: 28, color: 'primary.main' }} />, path: '/equipamentos' },
-    { text: 'Produtos', icon: <Inventory sx={{ fontSize: 28, color: 'primary.main' }} />, path: '/produtos' },
-    { text: 'Relatórios', icon: <Assessment sx={{ fontSize: 28, color: 'primary.main' }} />, path: '/relatorios' }
+    {
+        text: 'Produtos',
+        icon: <Inventory sx={{ fontSize: 28, color: 'primary.main' }} />,
+        path: '/produtos',
+        hasSubmenu: true,
+        submenu: [
+            { text: 'Gerenciar Produtos', icon: <ShoppingCart sx={{ fontSize: 22, color: 'primary.main' }} />, path: '/produtos/gerenciar' },
+            { text: 'Categorias', icon: <Category sx={{ fontSize: 22, color: 'primary.main' }} />, path: '/produtos/categorias' }
+        ]
+    },
+    {
+        text: 'Relatórios',
+        icon: <Assessment sx={{ fontSize: 28, color: 'primary.main' }} />,
+        path: '/relatorios',
+        hasSubmenu: true,
+        submenu: [
+            { text: 'Itens Vendidos', icon: <Receipt sx={{ fontSize: 22, color: 'primary.main' }} />, path: '/relatorios/vendas' },
+            { text: 'Relatório Financeiro', icon: <AccountBalance sx={{ fontSize: 22, color: 'primary.main' }} />, path: '/relatorios/financeiro' }
+        ]
+    }
 ];
 
 const managementItems = [
@@ -72,6 +91,7 @@ export default function Sidebar() {
     const { setTitle } = useApp();
 
     const [currentPath, setCurrentPath] = useState('/festividades');
+    const [expandedItems, setExpandedItems] = useState({});
 
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('lg'));
@@ -86,10 +106,116 @@ export default function Sidebar() {
         if (isMobile) handleCloseDrawer();
     };
 
+    const handleSubmenuToggle = (itemText) => {
+        setExpandedItems(prev => ({
+            ...prev,
+            [itemText]: !prev[itemText]
+        }));
+    };
+
     useEffect(() => {
         if (isMobile) handleCloseDrawer(true);
         else handleCloseDrawer(false);
     }, [isMobile]);
+
+    const renderMenuItem = (item, index) => {
+        const hasSubmenu = item.hasSubmenu && item.submenu;
+        const isExpanded = expandedItems[item.text];
+        const isParentSelected = hasSubmenu && item.submenu.some(subItem => subItem.path === currentPath);
+
+        return (
+            <React.Fragment key={index}>
+                <Tooltip title={!drawerOpen ? item.text : ""} placement="right">
+                    <ListItem disablePadding>
+                        <ListItemButton
+                            onClick={() => {
+                                if (hasSubmenu) {
+                                    handleSubmenuToggle(item.text);
+                                } else {
+                                    handleMenuClick(item.path, item.text);
+                                }
+                            }}
+                            selected={currentPath === item.path || isParentSelected}
+                            sx={{
+                                minHeight: 48,
+                                justifyContent: drawerOpen ? 'initial' : 'center',
+                                px: 2.5,
+                            }}
+                        >
+                            <ListItemIcon
+                                sx={{
+                                    minWidth: 0,
+                                    mr: drawerOpen ? 3 : 0,
+                                    justifyContent: 'center',
+                                }}
+                            >
+                                {item.icon}
+                            </ListItemIcon>
+                            {drawerOpen && (
+                                <ListItemText
+                                    primary={item.text}
+                                    primaryTypographyProps={{
+                                        fontSize: "1.4rem",
+                                        color: "secondary.main",
+                                        fontFamily: "secondaryText.fontFamily"
+                                    }}
+                                    sx={{ opacity: drawerOpen ? 1 : 0 }}
+                                />
+                            )}
+                            {drawerOpen && hasSubmenu && (
+                                isExpanded ? <ExpandLess /> : <ExpandMore />
+                            )}
+                        </ListItemButton>
+                    </ListItem>
+                </Tooltip>
+
+                {/* Submenu */}
+                {hasSubmenu && isExpanded && (
+                    <Collapse in={isExpanded} timeout="auto" unmountOnExit>
+                        <List component="div" disablePadding>
+                            {item.submenu.map((subItem, subIndex) => (
+                                <Tooltip key={subIndex} title={!drawerOpen ? subItem.text : ""} placement="right">
+                                    <ListItem disablePadding>
+                                        <ListItemButton
+                                            onClick={() => handleMenuClick(subItem.path, subItem.text)}
+                                            selected={currentPath === subItem.path}
+                                            sx={{
+                                                minHeight: 40,
+                                                justifyContent: drawerOpen ? 'initial' : 'center',
+                                                pl: drawerOpen ? 4 : 3.5,
+                                                pr: 2.5,
+                                            }}
+                                        >
+                                            <ListItemIcon
+                                                sx={{
+                                                    minWidth: 0,
+                                                    mr: drawerOpen ? 2 : 0,
+                                                    justifyContent: 'center',
+                                                }}
+                                            >
+                                                {subItem.icon}
+                                            </ListItemIcon>
+                                            {drawerOpen && (
+                                                <ListItemText
+                                                    primary={subItem.text}
+                                                    primaryTypographyProps={{
+                                                        fontSize: "1.2rem",
+                                                        color: "secondary.main",
+                                                        fontFamily: "secondaryText.fontFamily"
+                                                    }}
+                                                    sx={{ opacity: drawerOpen ? 1 : 0 }}
+                                                />
+                                            )}
+                                        </ListItemButton>
+                                    </ListItem>
+                                </Tooltip>
+                            ))}
+                        </List>
+                    </Collapse>
+                )}
+            </React.Fragment>
+        );
+    };
 
     const menu = () => {
         return (
@@ -221,42 +347,7 @@ export default function Sidebar() {
                     </ListSubheader>
 
                     {/* Menu Items */}
-                    {menuItems.map((item, index) => (
-                        <Tooltip key={index} title={!drawerOpen ? item.text : ""} placement="right">
-                            <ListItem disablePadding>
-                                <ListItemButton
-                                    onClick={() => handleMenuClick(item.path, item.text)}
-                                    selected={currentPath === item.path}
-                                    sx={{
-                                        minHeight: 48,
-                                        justifyContent: drawerOpen ? 'initial' : 'center',
-                                        px: 2.5,
-                                    }}
-                                >
-                                    <ListItemIcon
-                                        sx={{
-                                            minWidth: 0,
-                                            mr: drawerOpen ? 3 : 0,
-                                            justifyContent: 'center',
-                                        }}
-                                    >
-                                        {item.icon}
-                                    </ListItemIcon>
-                                    {drawerOpen && (
-                                        <ListItemText
-                                            primary={item.text}
-                                            primaryTypographyProps={{
-                                                fontSize: "1.4rem",
-                                                color: "secondary.main",
-                                                fontFamily: "secondaryText.fontFamily"
-                                            }}
-                                            sx={{ opacity: drawerOpen ? 1 : 0 }}
-                                        />
-                                    )}
-                                </ListItemButton>
-                            </ListItem>
-                        </Tooltip>
-                    ))}
+                    {menuItems.map((item, index) => renderMenuItem(item, index))}
 
                     {/* Seção Gerenciamento */}
                     <ListSubheader

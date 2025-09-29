@@ -16,6 +16,7 @@ import { useApp } from "../../contexts/AppContext.jsx";
 import { useState } from "react";
 import { TableFilter } from "../../components/filter/TableFilter.jsx";
 import { Add } from "@mui/icons-material";
+import {EventForm} from "./forms/EventForm.jsx";
 
 export function Events() {
     const { getEmpresaIdSession, setEmpresaIdSession } = useApp();
@@ -25,31 +26,25 @@ export function Events() {
     const [openForm, setOpenForm] = useState(false);
 
     return (
-        <Grid
-            container
-            spacing={3}               // mantém espaçamento entre itens
-            sx={{
-                pt: { xs: 2, md: 5 },   // padding top responsivo
-                px: { xs: 2, md: 4 },   // padding horizontal responsivo
-                width: '100%',
-                maxWidth: 1200,          // centraliza conteúdo
-                mx: 'auto',
-                boxSizing: 'border-box', // evita overflow
-            }}
-        >
-            {/* Header com filtros e botão */}
-            <Grid item xs={12}>
-                <Grid container spacing={2} justifyContent="space-between" alignItems="center">
-                    <Grid item>
+        <>
+            <Grid
+                container
+                direction="row"
+                justifyContent="flex-start"
+                alignItems="end"
+                paddingTop={15}
+                spacing={3}
+            >
+                {/* Header com filtros e botão */}
+                <Grid item size={12}>
+                    <Stack direction={{ xs: 'column-reverse', md: 'row' }} spacing={2} justifyContent={'space-between'}>
                         <FiltersButton
                             isOpenFilters={isOpenFilters}
                             setIsOpenFilters={setIsOpenFilters}
                             activeFilters={activeFilters}
                         />
-                    </Grid>
 
-                    <Grid item>
-                        <Box sx={{ textAlign: { xs: 'center', md: 'right' } }}>
+                        <Typography sx={{ textAlign: { xs: 'center', md: 'right' } }}>
                             <Button
                                 variant="contained"
                                 color="primary"
@@ -58,36 +53,47 @@ export function Events() {
                             >
                                 Cadastrar Festividade
                             </Button>
-                        </Box>
-                    </Grid>
+                        </Typography>
+                    </Stack>
                 </Grid>
-            </Grid>
 
-            {/* Filtro de tabela */}
-            <Grid item xs={12}>
                 <TableFilter
                     isOpenFilters={isOpenFilters}
                     item={"Festividades"}
                 />
+
+                {/* Tabela */}
+                <Grid item size={12}>
+                    <TableContainer component={Paper}>
+                        <Table aria-label="Festividades">
+                            <TableHead sx={{ bgcolor: "primary.main" }}>
+                                <TableRow
+                                    sx={{
+                                        "& .MuiTableCell-root": {
+                                            color: "white",
+                                            fontWeight: "light",
+                                            fontFamily: 'secondaryText.fontFamily',
+                                            fontSize: "large",
+                                        }
+                                    }}
+                                >
+                                    <TableCell>Nome</TableCell>
+                                    <TableCell>Data de Início</TableCell>
+                                    <TableCell>Data de Fim</TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {/* linhas da tabela */}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+                </Grid>
             </Grid>
 
-            {/* Tabela */}
-            <Grid item xs={12}>
-                <TableContainer component={Paper}>
-                    <Table aria-label="Festividades">
-                        <TableHead>
-                            <TableRow>
-                                <TableCell>Nome</TableCell>
-                                <TableCell>Data de Início</TableCell>
-                                <TableCell>Data de Fim</TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {/* linhas da tabela */}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
-            </Grid>
-        </Grid>
+            <EventForm
+                open={openForm}
+                setOpen={setOpenForm}
+            />
+        </>
     );
 }

@@ -52,6 +52,7 @@ export function AppLayout({ children }) {
                     mt: { xs: 7, md: 9 },
                     px: { xs: 2, md: 6 },
                     pb: 3,
+                    pt: 15,
                     width: {
                         xs: '100%',
                         lg: `calc(100% - ${currentDrawerWidth}px)`

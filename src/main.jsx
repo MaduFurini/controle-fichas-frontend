@@ -8,6 +8,9 @@ import { Toaster } from 'react-hot-toast';
 
 import App from './App.jsx';
 import Theme from "./configs/theme.jsx";
+import {LocalizationProvider} from "@mui/x-date-pickers";
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { ptBR } from '@mui/x-date-pickers/locales';
 
 const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3001';
 const consultaCepUrl = import.meta.env.VITE_CONSULTA_CEP_URL || '';
@@ -33,10 +36,16 @@ root.render(
 
             <ThemeProvider theme={Theme}>
                 <CssBaseline />
-                <Router>
-                    <App />
-                    <Toaster position="top-right" />
-                </Router>
+                <LocalizationProvider
+                    dateAdapter={AdapterDayjs}
+                    adapterLocale="pt-br"
+                    localeText={ptBR.components.MuiLocalizationProvider.defaultProps.localeText}
+                >
+                    <Router>
+                        <App />
+                        <Toaster position="top-right" />
+                    </Router>
+                </LocalizationProvider>
             </ThemeProvider>
         </HelmetProvider>
     </React.StrictMode>

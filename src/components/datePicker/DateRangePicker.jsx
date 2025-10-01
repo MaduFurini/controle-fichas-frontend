@@ -20,15 +20,19 @@ const isInRange = (date, startDate, endDate) => {
 };
 
 const formatDateRange = (startDate, endDate) => {
-    if ((startDate && endDate) && !startDate.isSame(endDate, "day")) {
-        return `${startDate.format("DD/MM/YYYY")} à ${endDate.format("DD/MM/YYYY")}`;
+    const start = startDate ? dayjs(startDate) : null;
+    const end = endDate ? dayjs(endDate) : null;
+
+    if (start && end && !start.isSame(end, "day")) {
+        return `${start.format("DD/MM/YYYY")} à ${end.format("DD/MM/YYYY")}`;
     }
-    if (startDate) return startDate.format("DD/MM/YYYY");
-    if (endDate) return endDate.format("DD/MM/YYYY");
+    if (start) return start.format("DD/MM/YYYY");
+    if (end) return end.format("DD/MM/YYYY");
     return "Selecionar Data/Período";
 };
 
-const Index = ({ value, onChange, onReset, hasError = false, textFieldSize = 'small', bgColor = 'transparent', ...restProps }) => {
+
+const DateRangePicker = ({ value, onChange, onReset, hasError = false, textFieldSize = 'small', bgColor = 'transparent', ...restProps }) => {
     const [startDate, setStartDate] = useState(value?.[0] || null);
     const [endDate, setEndDate] = useState(value?.[1] || null);
     const [open, setOpen] = useState(false);
@@ -144,4 +148,4 @@ const Index = ({ value, onChange, onReset, hasError = false, textFieldSize = 'sm
     );
 };
 
-export default Index;
+export default DateRangePicker;
